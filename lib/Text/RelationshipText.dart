@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 
 Widget relationshipsText() {
   return Container(
-    width: double.infinity,
     decoration: BoxDecoration(
         color: Color.fromRGBO(5, 76, 207, 1)
     ),

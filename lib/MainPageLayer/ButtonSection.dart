@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Buttons/activities.dart';
 import '../Buttons/age.dart';
@@ -10,15 +11,17 @@ import '../Text/ActivityText.dart';
 import '../Text/AssetsText.dart';
 import '../Text/OccupationText.dart';
 import '../Text/RelationshipText.dart';
+import 'package:flutter/foundation.dart';
 
-class Buttons extends StatefulWidget {
-  const Buttons({super.key});
+class ButtonsSection extends StatefulWidget {
+  const ButtonsSection({super.key});
 
   @override
-  State<Buttons> createState() => _ButtonsState();
+  State<ButtonsSection> createState() => _ButtonsSectionState();
 }
 
-class _ButtonsState extends State<Buttons> {
+class _ButtonsSectionState extends State<ButtonsSection> {
+
   int age = 0;
 
   void incrementAge() {
@@ -29,6 +32,11 @@ class _ButtonsState extends State<Buttons> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
@@ -36,103 +44,48 @@ class _ButtonsState extends State<Buttons> {
       width: double.infinity,
       height: 85,
       // padding:  EdgeInsets.all(16),
-      child: Stack(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(
-            width: 448,
-            height: 90,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+          Expanded(
+            child: Column(
               children: [
-                Flexible(
-                  flex: 1,
-                  child: Center(
-                    heightFactor: 20,
-                    child: Column(
-                      children: [
-                        Container(
-                            height: 60,
-                            width: 100,
-                            child: occupation()),
-                        Container(
-                          height: 23,
-                          width: 100,
-                          child: occupationText(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Flexible(
-                    fit: FlexFit.tight,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 100,
-                            child: assets(),
-                          ),
-                          Container(
-                            height: 21,
-                            child: assetsText(),
-                          ),
-                        ],
-                      ),
-                    )),
-                //Age
-                Flexible(
-                    fit: FlexFit.tight,
-                    child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        height: 100,
-                        width: 100,
-                        child:
-                        ageButton(onAgeIncrement: incrementAge))),
-                Flexible(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 100,
-                            child: relationship(),
-                          ),
-                          Container(
-                            height: 21,
-                            width: 100,
-                            child: relationshipsText(),
-                          )
-                        ],
-                      ),
-                    )),
-                Flexible(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 100,
-                            child: activities(),
-                          ),
-                          Container(
-                            height: 21,
-                            child: activityText(),
-                          )
-                        ],
-                      ),
-                    )),
+                Container(
+                    height: screenHeight*0.06,
+                    child: Expanded(child: occupation())),
+                Expanded(child: occupationText()),
               ],
             ),
           ),
-        ],
+          Column(
+            children: [
+              Container(
+                  height: screenHeight*0.06,
+                  child: Expanded(child: assets())),
+              // Expanded(child: assetsText())
+            ],
+          ),
+          //Age
+          ageButton(),
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(child: relationship()),
+                Expanded(child: relationshipsText()),
+              ],
+            ),
+          ),
+
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(child: activities()),
+                Expanded(child: activityText()),
+
+              ],
+            ),
+          )
+          ],
       ),
     );
   }

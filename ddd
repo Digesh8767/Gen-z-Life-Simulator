@@ -1,0 +1,183 @@
+warning: in the working copy of 'pubspec.lock', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/lib/Buttons/age.dart b/lib/Buttons/age.dart[m
+[1mindex 2d57439..b0ac78d 100644[m
+[1m--- a/lib/Buttons/age.dart[m
+[1m+++ b/lib/Buttons/age.dart[m
+[36m@@ -2,13 +2,15 @@[m [mimport 'package:flutter/cupertino.dart';[m
+ import 'package:flutter/material.dart';[m
+ [m
+ import 'package:gen_z_life/Pages/logScreen.dart';[m
+[32m+[m[32mimport 'package:gen_z_life/Providers/age_value_provider.dart';[m
+ import 'package:google_fonts/google_fonts.dart';[m
+[32m+[m[32mimport 'package:provider/provider.dart';[m
+ import 'package:velocity_x/velocity_x.dart';[m
+ [m
+ class ageButton extends StatelessWidget {[m
+[31m-  final VoidCallback onAgeIncrement;[m
+ [m
+[31m-  const ageButton({super.key , required this.onAgeIncrement});[m
+[32m+[m
+[32m+[m[32m  const ageButton({super.key});[m
+ [m
+   //[m
+   @override[m
+[36m@@ -33,7 +35,7 @@[m [mclass ageButton extends StatelessWidget {[m
+                   borderRadius: BorderRadius.circular(70),[m
+                   child: InkWell([m
+                     onTap: () {[m
+[31m-                        onAgeIncrement();[m
+[32m+[m[32m                        Provider.of<AgeProvider>(context).incrementCounter();[m
+                     },[m
+                     splashColor: Colors.grey.withBrightness,[m
+                     highlightColor: Colors.grey.withBrightness,[m
+[1mdiff --git a/lib/MainPageLayer/ButtonSection.dart b/lib/MainPageLayer/ButtonSection.dart[m
+[1mindex e8d0909..24a21ff 100644[m
+[1m--- a/lib/MainPageLayer/ButtonSection.dart[m
+[1m+++ b/lib/MainPageLayer/ButtonSection.dart[m
+[36m@@ -1,5 +1,6 @@[m
+ import 'package:flutter/cupertino.dart';[m
+ import 'package:flutter/material.dart';[m
+[32m+[m[32mimport 'package:provider/provider.dart';[m
+ [m
+ import '../Buttons/activities.dart';[m
+ import '../Buttons/age.dart';[m
+[36m@@ -10,15 +11,16 @@[m [mimport '../Text/ActivityText.dart';[m
+ import '../Text/AssetsText.dart';[m
+ import '../Text/OccupationText.dart';[m
+ import '../Text/RelationshipText.dart';[m
+[32m+[m[32mimport 'package:flutter/foundation.dart';[m
+ [m
+[31m-class Buttons extends StatefulWidget {[m
+[31m-  const Buttons({super.key});[m
+[32m+[m[32mclass ButtonsSection extends StatefulWidget {[m
+[32m+[m[32m  const ButtonsSection({super.key});[m
+ [m
+   @override[m
+[31m-  State<Buttons> createState() => _ButtonsState();[m
+[32m+[m[32m  State<ButtonsSection> createState() => _ButtonsSectionState();[m
+ }[m
+ [m
+[31m-class _ButtonsState extends State<Buttons> {[m
+[32m+[m[32mclass _ButtonsSectionState extends State<ButtonsSection> {[m
+   int age = 0;[m
+ [m
+   void incrementAge() {[m
+[36m@@ -36,101 +38,68 @@[m [mclass _ButtonsState extends State<Buttons> {[m
+       width: double.infinity,[m
+       height: 85,[m
+       // padding:  EdgeInsets.all(16),[m
+[31m-      child: Stack([m
+[32m+[m[32m      child: Row([m
+[32m+[m[32m        mainAxisAlignment: MainAxisAlignment.spaceAround,[m
+         children: [[m
+[31m-          Container([m
+[31m-            width: 448,[m
+[31m-            height: 90,[m
+[31m-            child: Row([m
+[31m-              mainAxisAlignment: MainAxisAlignment.start,[m
+[31m-              children: [[m
+[31m-                Flexible([m
+[31m-                  flex: 1,[m
+[31m-                  child: Center([m
+[31m-                    heightFactor: 20,[m
+[31m-                    child: Column([m
+[31m-                      children: [[m
+[31m-                        Container([m
+[31m-                            height: 60,[m
+[31m-                            width: 100,[m
+[31m-                            child: occupation()),[m
+[31m-                        Container([m
+[31m-                          height: 23,[m
+[31m-                          width: 100,[m
+[31m-                          child: occupationText(),[m
+[31m-                        ),[m
+[31m-                      ],[m
+[31m-                    ),[m
+[31m-                  ),[m
+[31m-                ),[m
+[31m-                Flexible([m
+[31m-                    fit: FlexFit.tight,[m
+[31m-                    child: Container([m
+[31m-                      decoration: BoxDecoration([m
+[31m-                          border: Border.all(color: Colors.black)),[m
+[31m-                      child: Column([m
+[31m-                        children: [[m
+[31m-                          Container([m
+[31m-                            height: 60,[m
+[31m-                            width: 100,[m
+[31m-                            child: assets(),[m
+[31m-                          ),[m
+[31m-                          Container([m
+[31m-                            height: 21,[m
+[31m-                            child: assetsText(),[m
+[31m-                          ),[m
+[31m-                        ],[m
+[31m-                      ),[m
+[31m-                    )),[m
+[31m-                //Age[m
+[31m-                Flexible([m
+[31m-                    fit: FlexFit.tight,[m
+[31m-                    child: Container([m
+[31m-                        decoration: BoxDecoration([m
+[31m-                            border: Border.all(color: Colors.black)),[m
+[31m-                        height: 100,[m
+[31m-                        width: 100,[m
+[31m-                        child:[m
+[31m-                        ageButton(onAgeIncrement: incrementAge))),[m
+[31m-                Flexible([m
+[31m-                    child: Container([m
+[31m-                      decoration: BoxDecoration([m
+[31m-                          border: Border.all(color: Colors.black)),[m
+[31m-                      child: Column([m
+[31m-                        children: [[m
+[31m-                          Container([m
+[31m-                            height: 60,[m
+[31m-                            width: 100,[m
+[31m-                            child: relationship(),[m
+[31m-                          ),[m
+[31m-                          Container([m
+[31m-                            height: 21,[m
+[31m-                            width: 100,[m
+[31m-                            child: relationshipsText(),[m
+[31m-                          )[m
+[31m-                        ],[m
+[31m-                      ),[m
+[31m-                    )),[m
+[31m-                Flexible([m
+[31m-                    child: Container([m
+[31m-                      decoration: BoxDecoration([m
+[31m-                          border: Border.all(color: Colors.black)),[m
+[31m-                      child: Column([m
+[31m-                        children: [[m
+[31m-                          Container([m
+[31m-                            height: 60,[m
+[31m-                            width: 100,[m
+[31m-                            child: activities(),[m
+[31m-                          ),[m
+[31m-                          Container([m
+[31m-                            height: 21,[m
+[31m-                            child: activityText(),[m
+[31m-                          )[m
+[31m-                        ],[m
+[31m-                      ),[m
+[31m-                    )),[m
+[31m-              ],[m
+[31m-            ),[m
+[32m+[m[32m          Column([m
+[32m+[m[32m            mainAxisAlignment: MainAxisAlignment.center,[m
+[32m+[m[32m            children: [[m
+[32m+[m[32m              Container(height: 50, width: 50, child: occupation()),[m
+[32m+[m[32m              Container([m
+[32m+[m[32m                height: 23,[m
+[32m+[m[32m                width: 100,[m
+[32m+[m[32m                child: occupationText(),[m
+[32m+[m[32m              ),[m
+[32m+[m[32m            ],[m
+[32m+[m[32m          ),[m
+[32m+[m[32m          Column([m
+[32m+[m[32m            mainAxisAlignment: MainAxisAlignment.center,[m
+[32m+[m[32m            children: [[m
+[32m+[m[32m              Container([m
+[32m+[m[32m                height: 60,[m
+[32m+[m[32m                width: 100,[m
+[32m+[m[32m                child: assets(),[m
